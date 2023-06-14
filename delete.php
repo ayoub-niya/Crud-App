@@ -7,14 +7,14 @@ if (!$id) {
 }
 
 $host = "localhost";
-$dbname = "products";
+$dbname = "product_db";
 $username = "root";
-$password = "";
+$password = "93909311";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "DELETE FROM product_table WHERE id = :id";
+    $query = "DELETE FROM products WHERE id = :id";
     $stmt = $pdo->prepare($query);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
