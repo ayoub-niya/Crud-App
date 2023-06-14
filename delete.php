@@ -9,7 +9,7 @@ if (!$id) {
 $host = "localhost";
 $dbname = "product_db";
 $username = "root";
-$password = "93909311";
+$password = "";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
