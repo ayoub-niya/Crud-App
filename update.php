@@ -7,14 +7,14 @@ if (!$id) {
 }
 
 $host = "localhost";
-$dbname = "products";
+$dbname = "product_db";
 $username = "root";
-$password = "";
+$password = "93909311";
 
 try {
 	$pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "SELECT * FROM product_table WHERE id = :id";
+    $query = "SELECT * FROM products WHERE id = :id";
     $stmt = $pdo->prepare($query);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
@@ -33,7 +33,7 @@ try {
 			$errors[] = "Product price is required :(!";
 		}
 		if (!$errors) {
-			$query = "UPDATE product_table SET title = :title, description = :description, price = :price WHERE id = :id";
+			$query = "UPDATE products SET title = :title, description = :description, price = :price WHERE id = :id";
 			$stmt = $pdo->prepare($query);
 			$stmt->bindValue(":title", $title);
 			$stmt->bindValue(":description", $description);
@@ -51,16 +51,17 @@ try {
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Crud App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Crud App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Update Product</h1>
-  <?php if ($errors) : ?>
+  <div class="container w-75">
+    <h1 class="text-center mb-4">Update Product</h1>
+    <?php if ($errors) : ?>
       <div class="alert alert-danger">
         <?php foreach ($errors as $error) :?>
           <p><?php echo $error; ?></p>
@@ -82,6 +83,6 @@ try {
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-  </body>
+  </div>  
+</body>
 </html>
