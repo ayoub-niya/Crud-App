@@ -1,51 +1,57 @@
 <?php
 
-$id = $_GET['id'] ?? null;
-if (!$id) {
+  include 'connect.php';
+
+  $id = $_GET['id'] ?? null;
+
+  if (!$id) {
+
     header('Location: index.php');
     exit;
-}
 
-$host = "localhost";
-$dbname = "product_db";
-$username = "root";
-$password = "93909311";
+  }
 
-try {
-	$pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "SELECT * FROM products WHERE id = :id";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindValue(":id", $id);
-    $stmt->execute();
-    $product = $stmt->fetch(PDO::FETCH_ASSOC);
-	
-	$errors = [];
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$title = $_POST['title'];
-		$description = $_POST['description'];
-		$price = $_POST['price'];
-		
-		if (!$title) {
-			$errors[] = "Product title is required :(!";
-		  }
-		if (!$price) {
-			$errors[] = "Product price is required :(!";
-		}
-		if (!$errors) {
-			$query = "UPDATE products SET title = :title, description = :description, price = :price WHERE id = :id";
-			$stmt = $pdo->prepare($query);
-			$stmt->bindValue(":title", $title);
-			$stmt->bindValue(":description", $description);
-			$stmt->bindValue(":price", $price);
-			$stmt->bindValue(":id", $id);
-			$stmt->execute();
-		}
-		header('Location: index.php');
+  $query = "SELECT * FROM products WHERE id = :id";
+  $stmt = $pdo->prepare($query);
+  $stmt->bindValue(":id", $id);
+  $stmt->execute();
+  $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $errors = [];
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    
+    if (!$title) {
+
+      $errors[] = "Product title is required :(!";
+
+      }
+
+    if (!$price) {
+
+      $errors[] = "Product price is required :(!";
+
     }
-} catch (PDOException $e) {
-    echo "Connection failed ".$e->getMessage();
-}
+
+    if (!$errors) {
+
+      $query = "UPDATE products SET title = :title, description = :description, price = :price WHERE id = :id";
+      $stmt = $pdo->prepare($query);
+      $stmt->bindValue(":title", $title);
+      $stmt->bindValue(":description", $description);
+      $stmt->bindValue(":price", $price);
+      $stmt->bindValue(":id", $id);
+      $stmt->execute();
+      
+    }
+
+    header('Location: index.php');
+
+  }
 
 ?>
 

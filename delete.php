@@ -1,25 +1,20 @@
 <?php
 
-$id = $_POST['id'] ?? null;
-if (!$id) {
-    header('Location: index.php');
-    exit;
-}
+    include 'connect.php';
 
-$host = "localhost";
-$dbname = "product_db";
-$username = "root";
-$password = "";
+    $id = $_POST['id'] ?? null;
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if (!$id) {
+
+        header('Location: index.php');
+        exit;
+        
+    }
+
     $query = "DELETE FROM products WHERE id = :id";
     $stmt = $pdo->prepare($query);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
 
     header('Location: index.php');
-} catch(PDOException $e){
-    echo "Connection failed".$e->getMessage();
-}
+    exit();

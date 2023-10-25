@@ -1,41 +1,43 @@
 <?php
-$host = "localhost";
-$dbname = "product_db";
-$username = "root";
-$password = "";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    $errors = [];
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $price = $_POST['price'];
-        $date = date('Y-m-d H:i:s');
+  include 'connect.php';
 
-        if (!$title) {
-          $errors[] = "Product title is required :(!";
-        }
-        if (!$price) {
-          $errors[] = "Product price is required :(!";
-        }
-        if (!$errors) {
-          $query = "INSERT INTO products(title, description, price, create_date) VALUES (:title, :description, :price, :date)";
-          $stmt = $pdo->prepare($query);
-          $stmt->bindValue(":title", $title);
-          $stmt->bindValue(":description", $description);
-          $stmt->bindValue(":price", $price);
-          $stmt->bindValue(":date", date('Y-m-d H:i:s'));
-          $stmt->execute();
+  $errors = [];
 
-          header('Location: index.php');
-        }
-    }
-} catch (PDOException $e) {
-    echo "Connection failed ".$e->getMessage();
-}
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $date = date('Y-m-d H:i:s');
+
+  }
+
+  if (!$title) {
+
+    $errors[] = "Product title is required :(!";
+
+  }
+
+  if (!$price) {
+
+    $errors[] = "Product price is required :(!";
+
+  }
+
+  if (!$errors) {
+
+    $query = "INSERT INTO products(title, description, price, create_date) VALUES (:title, :description, :price, :date)";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(":title", $title);
+    $stmt->bindValue(":description", $description);
+    $stmt->bindValue(":price", $price);
+    $stmt->bindValue(":date", date('Y-m-d H:i:s'));
+    $stmt->execute();
+
+    header('Location: index.php');
+
+  }
 
 ?>
 
